@@ -87,3 +87,63 @@ select distinct department from worker;
 --having 
 select department,count(*) from worker group by department having count(department) >1; 
 
+-- Write an SQL query to show the last record from a table.
+-- We know that the worker id  is self-Incrementing, therefore we'll find the the max worker_id first and print the data corresponding to it
+SELECT * 
+FROM Worker
+where worker_id = (
+  SELECT MAX(worker_id)
+  FROM Worker
+);
+-- Write an SQL query to fetch the first row of a table.
+-- Similar to the previous query, but here we find the Minimum value of Worker_id
+SELECT * 
+FROM Worker
+where worker_id = (
+  SELECT MIN(worker_id)
+  FROM Worker
+);
+
+-- Write an SQL query to print the name of employees having the highest salary in each department.
+SELECT department, MAX(Salary) 
+FROM Worker 
+GROUP BY department;
+
+
+-- Write an SQL query to fetch three max salaries from a table using co-related subquery.
+Select Distinct(Salary)
+From Worker as w1
+where 3>= (
+  SELECT COUNT(DISTINCT(Salary))
+  From Worker as w2
+  where w2.Salary >= w1.Salary
+) ORDER By Salary Desc;
+
+
+-- Its Limit Form:
+SELECT TOP 3 Salary
+FROM Worker 
+ORDER BY Salary DESC;
+
+--for lowest 3
+SELECT TOP 3 Salary
+FROM Worker 
+ORDER BY Salary ASC;
+
+-- Write an SQL query to fetch three min salaries from a table using co-related subquery
+Select Distinct(Salary)
+From Worker as w1
+where 3>= (
+  SELECT COUNT(DISTINCT(Salary))
+  From Worker as w2
+  where w2.Salary <= w1.Salary
+) ORDER By Salary;
+
+
+-- Write an SQL query to fetch the names of workers who earn the highest salary.
+SELECT first_name, salary
+FROM Worker 
+WHERE Salary = (
+    SELECT MAX(Salary)
+    FROM Worker
+);
